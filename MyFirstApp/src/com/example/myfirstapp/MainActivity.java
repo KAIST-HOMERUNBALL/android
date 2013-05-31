@@ -2,10 +2,15 @@ package com.example.myfirstapp;
 
 import java.util.ArrayList;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -26,7 +31,7 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 	public final static String CAFETERIA_LIST_URL = "http://14.63.161.205:9000";
 	public final static String MENU_LIST_URL = "http://14.63.161.205:9000/application/menu";
-	
+
 	private TabHost tabHost;
 	private WebView wv;
 	private WebView wv2;
@@ -39,12 +44,13 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_main);
-		
-		TextView tv = (TextView)this.findViewById(R.id.title);
-		tv.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)); //"sans-serif", Typeface.NORMAL));
-		
+
+		TextView tv = (TextView) this.findViewById(R.id.title);
+		tv.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)); // "sans-serif",
+																				// Typeface.NORMAL));
+
 		makeIds();
-		
+
 		wv = (WebView) findViewById(R.id.clist);
 		wv.getSettings().setJavaScriptEnabled(true);
 		wv.loadUrl(CAFETERIA_LIST_URL + "?ids=" + ids);
@@ -54,16 +60,18 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 		wv2.getSettings().setJavaScriptEnabled(true);
 		wv2.loadUrl(MENU_LIST_URL);
 		wv2.setWebViewClient(new WebViewClient());
-		
+
 		ArrayList<String> al = new ArrayList<String>();
 		al.add("Manage Cafeteria List");
 		al.add("View Manual");
 		al.add("Developer Information");
 
 		ListView lv = (ListView) this.findViewById(R.id.listView1);
-		CustomListAdaptor cla = new CustomListAdaptor(this, R.layout.custom_list, al);
-		//ArrayAdapter<CharSequence> aa;
-		//aa = ArrayAdapter.createFromResource(this, R.array.setting_select, android.R.layout.simple_list_item_1);
+		CustomListAdaptor cla = new CustomListAdaptor(this,
+				R.layout.custom_list, al);
+		// ArrayAdapter<CharSequence> aa;
+		// aa = ArrayAdapter.createFromResource(this, R.array.setting_select,
+		// android.R.layout.simple_list_item_1);
 		lv.setAdapter(cla);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -73,17 +81,20 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 				// TODO Auto-generated method stub
 				System.out.println(position);
 				if (position == 0) {
-					Intent i = new Intent(getApplicationContext(), ManageListActivity.class);
+					Intent i = new Intent(getApplicationContext(),
+							ManageListActivity.class);
 					startActivity(i);
-				} else if(position == 1) {
-					Intent i = new Intent(getApplicationContext(), ManageListActivity.class);
+				} else if (position == 1) {
+					Intent i = new Intent(getApplicationContext(),
+							ManageListActivity.class);
 					startActivity(i);
 				} else {
-					Intent i = new Intent(getApplicationContext(), DeveloperInfoActivity.class);
+					Intent i = new Intent(getApplicationContext(),
+							DeveloperInfoActivity.class);
 					startActivity(i);
 				}
 			}
-			
+
 		});
 
 		tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -114,18 +125,18 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 		}
 
 		tabHost.setOnTabChangedListener(this);
-		/*tabHost.getTabWidget().getChildAt(0).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				wv.loadUrl(CAFETERIA_LIST_URL);
-			}
-		});
-		tabHost.getTabWidget().getChildAt(1).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				wv2.loadUrl(MENU_LIST_URL);
-			}
-		});*/
+		/*
+		 * tabHost.getTabWidget().getChildAt(0).setOnClickListener(new
+		 * View.OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) {
+		 * wv.loadUrl(CAFETERIA_LIST_URL); } });
+		 * tabHost.getTabWidget().getChildAt(1).setOnClickListener(new
+		 * View.OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) {
+		 * wv2.loadUrl(MENU_LIST_URL); } });
+		 */
 
 		tabHost.setCurrentTab(0);
 		this.currentTab = 0;
@@ -134,6 +145,39 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 				.setBackgroundDrawable(
 						this.getResources().getDrawable(R.drawable.tapstrip2));
 
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		
+        NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isWifiAvail = ni.isAvailable();
+        boolean isWifiConn = ni.isConnected();
+        ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isMobileAvail = ni.isAvailable();
+        boolean isMobileConn = ni.isConnected();
+
+
+       
+	}
+
+	public void onResume() {
+		super.onResume();
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+		
+        NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isWifiAvail = ni.isAvailable();
+        boolean isWifiConn = ni.isConnected();
+        ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isMobileAvail = ni.isAvailable();
+        boolean isMobileConn = ni.isConnected();
+
+        String status = "WiFi\nAvail = " + isWifiAvail + "\nConn = "
+          + isWifiConn + "\nMobile\nAvail = " + isMobileAvail
+          + "\nConn = " + isMobileConn + "\n";
+
+        if (!isWifiConn || !isMobileConn) {
+            AlertShow("Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
+        }
 	}
 
 	@Override
@@ -152,10 +196,10 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 					R.drawable.tapstrip));
 		}
 		tabHost.getTabWidget()
-		.getChildAt(tabHost.getCurrentTab())
-		.setBackgroundDrawable(
-				this.getResources().getDrawable(R.drawable.tapstrip2));
-		
+				.getChildAt(tabHost.getCurrentTab())
+				.setBackgroundDrawable(
+						this.getResources().getDrawable(R.drawable.tapstrip2));
+
 		TextView tv = (TextView) this.findViewById(R.id.title);
 
 		if (tabId.equals("clist")) {
@@ -174,34 +218,66 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 			tv.setText(R.string.title_settings);
 		}
 	}
-	
+
 	public void onBackPressed() {
 		switch (this.currentTab) {
 		case 0:
-			if(wv.canGoBack()) wv.goBack();
-			else super.onBackPressed();
+			if (wv.canGoBack())
+				wv.goBack();
+			else
+				super.onBackPressed();
 			break;
 		case 1:
-			if(wv2.canGoBack()) wv2.goBack();
-			else super.onBackPressed();
+			if (wv2.canGoBack())
+				wv2.goBack();
+			else
+				super.onBackPressed();
 			break;
 		default:
 			super.onBackPressed();
 			break;
 		}
 	}
-	
+
+	// public void
+
 	public void makeIds() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		this.ids = "";
-		
-		if (prefs.getBoolean("north_cafe_check", true)) ids += "1";
-		else ids += "0";
-		if (prefs.getBoolean("north_meilu_check", true)) ids += "1";
-		else ids += "0";
-		if (prefs.getBoolean("east_cafe_check", true)) ids += "1";
-		else ids += "0";
-		if (prefs.getBoolean("west_cafe_check", true)) ids += "1";
-		else ids += "0";
+
+		if (prefs.getBoolean("north_cafe_check", true))
+			ids += "1";
+		else
+			ids += "0";
+		if (prefs.getBoolean("north_meilu_check", true))
+			ids += "1";
+		else
+			ids += "0";
+		if (prefs.getBoolean("east_cafe_check", true))
+			ids += "1";
+		else
+			ids += "0";
+		if (prefs.getBoolean("west_cafe_check", true))
+			ids += "1";
+		else
+			ids += "0";
 	}
+	
+	
+	 private void AlertShow(String msg) {
+
+	        AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(
+	                this);
+	        alert_internet_status.setTitle("Warning");
+	        alert_internet_status.setMessage(msg);
+	        alert_internet_status.setPositiveButton("close",
+	                new DialogInterface.OnClickListener() {
+	                    public void onClick(DialogInterface dialog, int which) {
+	                        dialog.dismiss(); // 닫기
+	                        
+	                    }
+	                });
+	        alert_internet_status.show();
+	    }
 }
