@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="north_cafe_check"
+        android:title="North Cafeteria"
+        android:defaultValue="true" />
+    <CheckBoxPreference
+        android:key="north_meilu_check"
+        android:title="North Meilu"
+        android:defaultValue="true" />
+    <CheckBoxPreference
+        android:key="east_cafe_check"
+        android:title="East Cafeteria"
+        android:defaultValue="true" />
+    <CheckBoxPreference
+        android:key="west_cafe_check"
+        android:title="West Cafeteria"
+        android:defaultValue="true" />
+
+</PreferenceScreen>
