@@ -145,39 +145,20 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 				.setBackgroundDrawable(
 						this.getResources().getDrawable(R.drawable.tapstrip2));
 
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		
-        NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        boolean isWifiAvail = ni.isAvailable();
-        boolean isWifiConn = ni.isConnected();
-        ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        boolean isMobileAvail = ni.isAvailable();
-        boolean isMobileConn = ni.isConnected();
-
-
-       
 	}
 
 	public void onResume() {
 		super.onResume();
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+		NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		boolean isWifiConn = ni.isConnected();
+		ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		boolean isMobileConn = ni.isConnected();
 
-		
-        NetworkInfo ni = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        boolean isWifiAvail = ni.isAvailable();
-        boolean isWifiConn = ni.isConnected();
-        ni = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        boolean isMobileAvail = ni.isAvailable();
-        boolean isMobileConn = ni.isConnected();
-
-        String status = "WiFi\nAvail = " + isWifiAvail + "\nConn = "
-          + isWifiConn + "\nMobile\nAvail = " + isMobileAvail
-          + "\nConn = " + isMobileConn + "\n";
-
-        if (!isWifiConn || !isMobileConn) {
-            AlertShow("Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
-        }
+		if (!isWifiConn || !isMobileConn) {
+			AlertShow("Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
+		}
 	}
 
 	@Override
@@ -263,21 +244,20 @@ public class MainActivity extends Activity implements OnTabChangeListener {
 		else
 			ids += "0";
 	}
-	
-	
-	 private void AlertShow(String msg) {
 
-	        AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(
-	                this);
-	        alert_internet_status.setTitle("Warning");
-	        alert_internet_status.setMessage(msg);
-	        alert_internet_status.setPositiveButton("close",
-	                new DialogInterface.OnClickListener() {
-	                    public void onClick(DialogInterface dialog, int which) {
-	                        dialog.dismiss(); // 닫기
-	                        
-	                    }
-	                });
-	        alert_internet_status.show();
-	    }
+	private void AlertShow(String msg) {
+
+		AlertDialog.Builder alert_internet_status = new AlertDialog.Builder(
+				this);
+		alert_internet_status.setTitle("Warning");
+		alert_internet_status.setMessage(msg);
+		alert_internet_status.setPositiveButton("close",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss(); // 닫기
+
+					}
+				});
+		alert_internet_status.show();
+	}
 }

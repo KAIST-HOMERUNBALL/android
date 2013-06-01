@@ -11,6 +11,8 @@
     <string name="title_settings">SETTINGS</string>
     <string name="devinfo">Developer information</string>
     <string name="copyright">Copyright © 2013 OneQ All rights reserved</string>
+    <string name="settings_text">Manage Cafeteria List</string>
+    <string name="save_button">save</string>
 
     <string-array name="setting_select">
         <item>Manage Cafeteria List</item>

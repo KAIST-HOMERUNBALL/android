@@ -49,6 +49,7 @@ public class ManageListActivity extends PreferenceActivity {
 		ab.hide();
 		setupActionBar();
 		addPreferencesFromResource(R.xml.settings);
+
 	}
 
 	/**
